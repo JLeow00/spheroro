@@ -76,3 +76,25 @@ async function move(){
 As can be seen, 'up', 'down', 'left' and 'right' just correspond to rolling 0, 180, 270 and 90 degrees respectively. Thus we can easily change the Django model `Direction` to be an integer between 0 and 360 and just get the sphero to `await roll()` with the exact direction which would be much more useful that having just 4 directions to work with.
 
 One way to make the sphero move once instead of moving every 3 seconds is to change the direction to a 'halt' command everytime a get request is made, setting `direction = -1` for example.
+
+## Controlling multiple spheros with node.js
+
+Tried to control multiple spheros with the sphero edu app but couldn't find any option, probably have to use the sphero.js to do this. Unsure if it is even possible. 
+
+Installed node.js on internet laptop and tried to `npm install sphero` and `npm install noble`. According to https://www.npmjs.com/package/sphero run this line of code to connect to the sphero
+
+```python
+var sphero = require("sphero"),
+    bb8 = sphero("F3:F2:6D:55:71:09"); // change BLE address accordingly
+ 
+bb8.connect(function() {
+  // roll BB-8 in a random direction, changing direction every second
+  setInterval(function() {
+    var direction = Math.floor(Math.random() * 360);
+    bb8.roll(150, direction);
+  }, 1000);
+});
+```
+
+This requires the MAC address of the sphero which I tried to get following the instructions here https://github.com/orbotix/sphero.js#linux---ubuntu but I'm missing a dependency called hci-bluetooth-socket https://github.com/noble/node-bluetooth-hci-socket when I tried to run their instructions.
+
